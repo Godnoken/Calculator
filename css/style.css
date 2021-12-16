@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Concert+One&display=swap');
+
+html {
+    font-size: 62.5%;
+    font-family: "Concert One", sans-serif;
+}
+
+body {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#calculator {
+    width: 45rem;
+    height: 60rem;
+    display: grid;
+    grid-template-areas:
+    "display display display display"
+    "display display display display"
+    "display display display display"
+    "clear clear undo undo"
+    "divide multiply subtract add"
+    "seven eight nine equals"
+    "four five six equals"
+    "one two three equals"
+    "zero zero decimal equals"
+    ;
+    gap: 4px;
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+    background-color: #031926;
+    color: white;
+}
+
+#display {
+    grid-area: display;
+}
+
+#clear {
+    grid-area: clear;
+    background-color: #92374D;
+}
+
+#undo {
+    grid-area: undo;
+    background-color: #92374D;
+}
+
+#divide {
+    grid-area: divide;
+}
+
+#multiply {
+    grid-area: multiply;
+}
+
+#subtract {
+    grid-area: subtract;
+}
+
+#add {
+    grid-area: add;
+}
+
+#equals {
+    grid-area: equals;
+    font-size: 4rem;
+    background-color: #087CA7;
+}
+
+#decimal {
+    grid-area: decimal;
+}
+
+#zero {
+    grid-area: zero;
+}
+
+#one {
+    grid-area: one;
+}
+
+#two {
+    grid-area: two;
+}
+
+#three {
+    grid-area: three;
+}
+
+#four {
+    grid-area: four;
+}
+
+#five {
+    grid-area: five;
+}
+
+#six {
+    grid-area: six;
+}
+
+#seven {
+    grid-area: seven;
+}
+
+#eight {
+    grid-area: eight;
+}
+
+#nine {
+    grid-area: nine;
+}
