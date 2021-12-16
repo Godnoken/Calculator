@@ -21,3 +21,9 @@ function divide(a, b) {
 }
 
 console.log(divide(40, 4));
+
+function operate(operator, number1, number2) {
+    return operator(number1, number2);
+}
+
+console.log(operate(add, 5, 9));
