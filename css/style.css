@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Concert+One&display=swap');
 
+
 html {
     font-size: 62.5%;
     font-family: "Concert One", sans-serif;
@@ -18,7 +19,6 @@ body {
     height: 60rem;
     display: grid;
     grid-template-areas:
-    "display display display display"
     "display display display display"
     "display display display display"
     "clear clear undo undo"
@@ -40,8 +40,22 @@ body {
     color: white;
 }
 
+.displayText {
+    margin: 0;
+    height: 3rem;
+}
+
 #display {
     grid-area: display;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-end;
+    padding-right: 2rem;
+}
+
+#displayResult {
+    color: #FCE762;
 }
 
 #clear {
