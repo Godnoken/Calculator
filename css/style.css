@@ -38,11 +38,12 @@ body {
     font-size: 3rem;
     background-color: #031926;
     color: white;
+    user-select: none;
 }
 
 .displayText {
     margin: 0;
-    height: 3rem;
+    height: 3.4rem;
 }
 
 #display {
@@ -52,6 +53,9 @@ body {
     justify-content: space-around;
     align-items: flex-end;
     padding-right: 2rem;
+    font-size: 3.4rem;
+    background-color: #031926;
+    color: white;
 }
 
 #displayResult {
@@ -133,3 +137,20 @@ body {
 #nine {
     grid-area: nine;
 }
+
+.active {
+    animation-name: Pulse;
+    animation-duration: 0.15s;
+  }
+
+@keyframes Pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(0.95);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
