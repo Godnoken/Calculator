@@ -40,7 +40,6 @@ function operate(operation, number1, number2) {
             break;
     }
 
-
     return operation(number1, number2).toFixed(3);
 }
 
@@ -132,4 +131,7 @@ function handleUndo() {
 function handleInvalidMath()  {
         displayResult.textContent ="MATH";
         displayInput.textContent = "ERROR";
+        setTimeout(() => {
+            handleClear();
+        }, 2000)
 }
