@@ -1,4 +1,4 @@
-let firstOperand = "";
+let firstOperand = "0";
 let secondOperand = "";
 let operationChosen = null;
 
@@ -52,6 +52,10 @@ function handleNumbers(event, number) {
     if (displayInput.textContent === "0") {
         displayInput.textContent = "";
     }
+
+    if (displayInput.textContent.length >= 20) {
+        return;
+    }
     
     if (operationChosen !== null) {
         secondOperand += event.target.textContent;
@@ -103,10 +107,21 @@ function handleEquals() {
     }
 }
 
+document.querySelector("#decimal").addEventListener("click", handleDecimal);
+
+function handleDecimal() {
+
+    if (displayInput.textContent.includes(".")) {
+        return;
+    }
+    firstOperand = firstOperand + this.textContent;
+    displayInput.textContent += this.textContent;
+}
+
 document.querySelector("#clear").addEventListener("click", handleClear);
 
 function handleClear() {
-    firstOperand = "";
+    firstOperand = "0";
     secondOperand = "";
     operationChosen = null;
     displayInput.textContent = "0";
