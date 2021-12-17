@@ -40,7 +40,7 @@ function operate(operation, number1, number2) {
             break;
     }
 
-    return operation(number1, number2).toFixed(3);
+    return Math.round(operation(number1, number2) * 1000) / 1000;
 }
 
 document.querySelectorAll(".number").forEach((number) => {
@@ -150,11 +150,3 @@ function handleInvalidMath()  {
             handleClear();
         }, 2000)
 }
-
-document.querySelectorAll(".button").forEach((button) => {
-    button.addEventListener("click", () => {
-        button.classList.remove("active");
-        button.offsetWidth;
-        button.classList.add("active");
-    })
-})
