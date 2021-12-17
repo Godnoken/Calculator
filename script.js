@@ -24,7 +24,7 @@ function divide(a, b) {
 function operate(operation, number1, number2) {
     number1 = Number(number1);
     number2 = Number(number2);
-
+    
     switch (operation) {
         case "+":
             operation = add;
@@ -39,6 +39,7 @@ function operate(operation, number1, number2) {
             operation = divide;
             break;
     }
+
 
     return operation(number1, number2);
 }
@@ -69,13 +70,16 @@ document.querySelectorAll(".operator").forEach((operator) => {
 function handleOperators(operator) {
     
     if (operationChosen !== null) {
+        if (operationChosen == "/", secondOperand === "0") {
+            handleInvalidMath();
+            return;
+        }
         calculatedNumber = operate(operationChosen, firstOperand, secondOperand);
         displayResult.textContent = calculatedNumber;
         displayInput.textContent = calculatedNumber + operator.textContent;
         firstOperand = calculatedNumber;
         secondOperand = "";
         operationChosen = operator.textContent;
-        console.log(firstOperand)
     } else {
         operationChosen = operator.textContent;
         displayInput.textContent += operator.textContent;
@@ -87,6 +91,10 @@ document.querySelector("#equals").addEventListener("click", handleEquals);
 function handleEquals() {
 
     if (operationChosen !== null && secondOperand !== "") {
+        if (operationChosen == "/", secondOperand === "0") {
+            handleInvalidMath();
+            return;
+        }
         calculatedNumber = operate(operationChosen, firstOperand, secondOperand);
         displayResult.textContent = calculatedNumber;
         displayInput.textContent = calculatedNumber;
@@ -119,4 +127,9 @@ function handleUndo() {
     }
 
     displayInput.textContent = displayInput.textContent.slice(0, -1);
+}
+
+function handleInvalidMath()  {
+        displayResult.textContent ="MATH";
+        displayInput.textContent = "ERROR";
 }
