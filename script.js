@@ -44,10 +44,10 @@ function operate(operation, number1, number2) {
 }
 
 document.querySelectorAll(".number").forEach((number) => {
-    number.addEventListener("click", (event) => handleNumbers(event, number))
+    number.addEventListener("click", () => handleNumbers(number.textContent))
 })
 
-function handleNumbers(event, number) {
+function handleNumbers(number) {
 
     if (displayInput.textContent === "0") {
         displayInput.textContent = "";
@@ -58,16 +58,16 @@ function handleNumbers(event, number) {
     }
     
     if (operationChosen !== null) {
-        secondOperand += event.target.textContent;
+        secondOperand += number;
     } else {
-        firstOperand += event.target.textContent;
+        firstOperand += number;
     }
 
-    displayInput.textContent += number.textContent;
+    displayInput.textContent += number.toString();
 }
 
 document.querySelectorAll(".operator").forEach((operator) => {
-    operator.addEventListener("click", () => handleOperators(operator))
+    operator.addEventListener("click", () => handleOperators(operator.textContent))
 })
 
 function handleOperators(operator) {
@@ -79,13 +79,13 @@ function handleOperators(operator) {
         }
         calculatedNumber = operate(operationChosen, firstOperand, secondOperand);
         displayResult.textContent = calculatedNumber;
-        displayInput.textContent = calculatedNumber + operator.textContent;
+        displayInput.textContent = calculatedNumber + operator;
         firstOperand = calculatedNumber;
         secondOperand = "";
-        operationChosen = operator.textContent;
+        operationChosen = operator;
     } else {
-        operationChosen = operator.textContent;
-        displayInput.textContent += operator.textContent;
+        operationChosen = operator;
+        displayInput.textContent += operator;
     }
 }
 
@@ -112,12 +112,12 @@ document.querySelector("#decimal").addEventListener("click", handleDecimal);
 function handleDecimal() {
 
     if (secondOperand === "" && !firstOperand.includes(".")) {
-        firstOperand = firstOperand + this.textContent;
-        displayInput.textContent += this.textContent;
+        firstOperand = firstOperand + ".";
+        displayInput.textContent += ".";
     }
     else if (secondOperand !== "" && !secondOperand.includes(".")) {
-        secondOperand = secondOperand + this.textContent;
-        displayInput.textContent += this.textContent;
+        secondOperand = secondOperand + ".";
+        displayInput.textContent += ".";
     }
 
 }
@@ -162,3 +162,25 @@ document.querySelectorAll(".button").forEach((button) => {
         button.classList.add("active");
     })
 })
+
+window.addEventListener("keydown", handleKeyboard);
+
+function handleKeyboard(event) {
+    console.log(event.key)
+    if (event.key >= 0 && event.key <= 9) handleNumbers(event.key)
+    if (event.key === ".") handleDecimal();
+    if (event.key === "Escape") handleClear();
+    if (event.key === "Backspace") handleUndo();
+    if (event.key === "Enter") handleEquals();
+    if (
+        event.key === "/"
+        ||
+        event.key === "+"
+        ||
+        event.key === "-"
+        ||
+        event.key === "*"
+        ) handleOperators(event.key);
+}
+
+// Known bug - pressing * or / twice without secondOperand turns first operand to 0
