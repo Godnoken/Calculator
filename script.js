@@ -41,7 +41,7 @@ function operate(operation, number1, number2) {
     }
 
 
-    return operation(number1, number2);
+    return operation(number1, number2).toFixed(3);
 }
 
 document.querySelectorAll(".number").forEach((number) => {
