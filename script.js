@@ -154,3 +154,11 @@ function handleInvalidMath()  {
             handleClear();
         }, 2000)
 }
+
+document.querySelectorAll(".button").forEach((button) => {
+    button.addEventListener("click", () => {
+        button.classList.remove("active");
+        button.offsetWidth;
+        button.classList.add("active");
+    })
+})
