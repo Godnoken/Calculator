@@ -111,11 +111,15 @@ document.querySelector("#decimal").addEventListener("click", handleDecimal);
 
 function handleDecimal() {
 
-    if (displayInput.textContent.includes(".")) {
-        return;
+    if (secondOperand === "" && !firstOperand.includes(".")) {
+        firstOperand = firstOperand + this.textContent;
+        displayInput.textContent += this.textContent;
     }
-    firstOperand = firstOperand + this.textContent;
-    displayInput.textContent += this.textContent;
+    else if (secondOperand !== "" && !secondOperand.includes(".")) {
+        secondOperand = secondOperand + this.textContent;
+        displayInput.textContent += this.textContent;
+    }
+
 }
 
 document.querySelector("#clear").addEventListener("click", handleClear);
