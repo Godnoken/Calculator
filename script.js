@@ -2,6 +2,10 @@ let firstOperand = "";
 let secondOperand = "";
 let operationChosen = null;
 
+const buttons = document.querySelectorAll(".button");
+const clear = document.querySelector("#clear");
+const undo = document.querySelector("#undo");
+const equals = document.querySelector("#equals");
 let displayInput = document.querySelector("#displayInput");
 let displayResult = document.querySelector("#displayResult");
 
@@ -168,23 +172,23 @@ function handleInvalidMath()  {
         }, 2000)
 }
 
-document.querySelectorAll(".button").forEach((button) => {
-    button.addEventListener("click", () => {
-        button.classList.remove("active");
-        button.offsetWidth;
-        button.classList.add("active");
-    })
-})
-
 window.addEventListener("keydown", handleKeyboard);
 
 function handleKeyboard(event) {
 
-    if (event.key >= 0 && event.key <= 9) handleNumbers(event.key)
-    if (event.key === ".") handleDecimal();
-    if (event.key === "Escape") handleClear();
-    if (event.key === "Backspace") handleUndo();
-    if (event.key === "Enter") handleEquals();
+    let buttonToAnimate;
+
+    buttons.forEach((button) => {
+        if (button.textContent == event.key.toString()) {
+            buttonToAnimate = button;
+        }
+    })
+
+    if (event.key >= 0 && event.key <= 9) handleNumbers(event.key), handlePulseAnimation(buttonToAnimate);
+    if (event.key === ".") handleDecimal(), handlePulseAnimation(buttonToAnimate);
+    if (event.key === "Escape") handleClear(), handlePulseAnimation(clear);
+    if (event.key === "Backspace") handleUndo(), handlePulseAnimation(undo);
+    if (event.key === "Enter") handleEquals(), handlePulseAnimation(equals);
     if (
         event.key === "/"
         ||
@@ -193,5 +197,15 @@ function handleKeyboard(event) {
         event.key === "-"
         ||
         event.key === "*"
-        ) handleOperators(event.key);
+        ) handleOperators(event.key), handlePulseAnimation(buttonToAnimate);
+}
+
+document.querySelectorAll(".button").forEach((button) => {
+    button.addEventListener("click", () => handlePulseAnimation(button))
+})
+
+function handlePulseAnimation(button) {
+    button.classList.remove("active");
+    button.offsetWidth;
+    button.classList.add("active");
 }
