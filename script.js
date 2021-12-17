@@ -71,7 +71,7 @@ document.querySelectorAll(".operator").forEach((operator) => {
 })
 
 function handleOperators(operator) {
-    console.log(firstOperand)
+
     if (operationChosen !== null) {
 
         if (operationChosen == "/", secondOperand === "0") {
@@ -179,7 +179,7 @@ document.querySelectorAll(".button").forEach((button) => {
 window.addEventListener("keydown", handleKeyboard);
 
 function handleKeyboard(event) {
-    console.log(event.key)
+
     if (event.key >= 0 && event.key <= 9) handleNumbers(event.key)
     if (event.key === ".") handleDecimal();
     if (event.key === "Escape") handleClear();
