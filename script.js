@@ -75,6 +75,7 @@ function handleOperators(operator) {
         firstOperand = calculatedNumber;
         secondOperand = "";
         operationChosen = operator.textContent;
+        console.log(firstOperand)
     } else {
         operationChosen = operator.textContent;
         displayInput.textContent += operator.textContent;
@@ -110,7 +111,7 @@ document.querySelector("#undo").addEventListener("click", handleUndo);
 function handleUndo() {
 
     if (operationChosen === null) {
-        firstOperand = firstOperand.slice(0, -1);
+        firstOperand = firstOperand.toString().slice(0, -1);
     } else if (displayInput.textContent.indexOf(operationChosen) === displayInput.textContent.length - 1) {
         operationChosen = null;
     } else {
