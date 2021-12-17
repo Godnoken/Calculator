@@ -1,4 +1,4 @@
-let firstOperand = "0";
+let firstOperand = "";
 let secondOperand = "";
 let operationChosen = null;
 
@@ -71,19 +71,28 @@ document.querySelectorAll(".operator").forEach((operator) => {
 })
 
 function handleOperators(operator) {
-    
+    console.log(firstOperand)
     if (operationChosen !== null) {
+
         if (operationChosen == "/", secondOperand === "0") {
             handleInvalidMath();
             return;
         }
+
+        if (secondOperand === "") {
+            operationChosen = operator;
+            displayInput.textContent = firstOperand + operator;
+            return;
+        }
+
         calculatedNumber = operate(operationChosen, firstOperand, secondOperand);
         displayResult.textContent = calculatedNumber;
         displayInput.textContent = calculatedNumber + operator;
         firstOperand = calculatedNumber;
         secondOperand = "";
         operationChosen = operator;
-    } else {
+    }
+    else {
         operationChosen = operator;
         displayInput.textContent += operator;
     }
@@ -94,10 +103,12 @@ document.querySelector("#equals").addEventListener("click", handleEquals);
 function handleEquals() {
 
     if (operationChosen !== null && secondOperand !== "") {
+
         if (operationChosen == "/", secondOperand === "0") {
             handleInvalidMath();
             return;
         }
+
         calculatedNumber = operate(operationChosen, firstOperand, secondOperand);
         displayResult.textContent = calculatedNumber;
         displayInput.textContent = calculatedNumber;
@@ -125,7 +136,7 @@ function handleDecimal() {
 document.querySelector("#clear").addEventListener("click", handleClear);
 
 function handleClear() {
-    firstOperand = "0";
+    firstOperand = "";
     secondOperand = "";
     operationChosen = null;
     displayInput.textContent = "0";
@@ -138,9 +149,11 @@ function handleUndo() {
 
     if (operationChosen === null) {
         firstOperand = firstOperand.toString().slice(0, -1);
-    } else if (displayInput.textContent.indexOf(operationChosen) === displayInput.textContent.length - 1) {
+    }
+    else if (displayInput.textContent.indexOf(operationChosen) === displayInput.textContent.length - 1) {
         operationChosen = null;
-    } else {
+    }
+    else {
         secondOperand = secondOperand.slice(0, -1);
     }
 
@@ -182,5 +195,3 @@ function handleKeyboard(event) {
         event.key === "*"
         ) handleOperators(event.key);
 }
-
-// Known bug - pressing * or / twice without secondOperand turns first operand to 0
