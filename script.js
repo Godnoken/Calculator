@@ -108,7 +108,7 @@ function handleNumbers(number) {
 }
 
 document.querySelectorAll(".operator").forEach((operator) => {
-    operator.addEventListener("click", () => handleOperators(operator))
+    operator.addEventListener("click", () => handleOperators(operator.textContent))
 })
 
 function handleOperators(operator) {
@@ -121,21 +121,21 @@ function handleOperators(operator) {
         }
 
         if (secondOperand === "") {
-            operationChosen = operator.textContent;
-            displayInput.textContent = firstOperand + operator.textContent;
+            operationChosen = operator;
+            displayInput.textContent = firstOperand + operator;
             return;
         }
 
         const calculatedNumber = operate(operationChosen, firstOperand, secondOperand);
         displayResult.textContent = calculatedNumber;
-        displayInput.textContent = calculatedNumber + operator.textContent;
+        displayInput.textContent = calculatedNumber + operator;
         firstOperand = calculatedNumber;
         secondOperand = "";
-        operationChosen = operator.textContent;
+        operationChosen = operator;
     }
     else {
-        displayInput.textContent += operator.textContent;
-        operationChosen = operator.textContent;
+        displayInput.textContent += operator;
+        operationChosen = operator;
     }
 }
 
