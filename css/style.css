@@ -32,7 +32,6 @@ body {
     gap: 4px;
 }
 
-
 #display {
     grid-area: display;
     display: flex;
@@ -72,14 +71,6 @@ body {
     background-color: #031926;
     color: white;
     user-select: none;
-}
-
-.button span {
-    width: 0;
-    height: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 #divide {
