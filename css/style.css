@@ -18,6 +18,8 @@ body {
     width: 45rem;
     height: 60rem;
     display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: minmax(0, 2fr) repeat(6, minmax(0, 1fr));
     grid-template-areas:
     "display display display display"
     "clear clear undo undo"
@@ -31,11 +33,6 @@ body {
 }
 
 
-.displayText {
-    margin: 0;
-    height: 3.4rem;
-}
-
 #display {
     grid-area: display;
     display: flex;
@@ -46,6 +43,11 @@ body {
     font-size: 3.4rem;
     background-color: #031926;
     color: white;
+}
+
+.displayText {
+    margin: 0;
+    height: 3.4rem;
 }
 
 #displayResult {
