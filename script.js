@@ -6,6 +6,8 @@ const buttons = document.querySelectorAll(".button");
 const clear = document.querySelector("#clear");
 const undo = document.querySelector("#undo");
 const equals = document.querySelector("#equals");
+const powerElement = document.querySelector("#power");
+const factorialElement = document.querySelector("#factorial");
 let displayInput = document.querySelector("#displayInput");
 let displayResult = document.querySelector("#displayResult");
 
@@ -25,6 +27,31 @@ function divide(a, b) {
     return a / b;
 }
 
+function power(a, b) {
+    let powerSum = a;
+  
+      for (let i = 0; i < b - 1; i++) {
+      powerSum = powerSum * a;
+    }
+  
+    return powerSum;
+}
+
+function factorial(a) {
+	let sum = a;
+
+  if (a === 0) {
+    return 1;
+  }
+
+  while (a > 1) {
+    a--;
+    sum = sum * a;
+  }
+
+  return sum;
+}
+
 function operate(operation, number1, number2) {
     number1 = Number(number1);
     number2 = Number(number2);
@@ -42,6 +69,11 @@ function operate(operation, number1, number2) {
         case "/":
             operation = divide;
             break;
+        case "xy":
+            operation = power;
+            break;
+        case "x!":
+            return Math.round(factorial(number1) * 1000) / 1000;
     }
 
     return Math.round(operation(number1, number2) * 1000) / 1000;
@@ -67,11 +99,16 @@ function handleNumbers(number) {
         firstOperand += number;
     }
 
+    if (operationChosen === "xy") {
+        displayInput.innerHTML += `<sup>${number}</sup`;
+        return;
+    }
+
     displayInput.textContent += number.toString();
 }
 
 document.querySelectorAll(".operator").forEach((operator) => {
-    operator.addEventListener("click", () => handleOperators(operator.textContent))
+    operator.addEventListener("click", () => handleOperators(operator))
 })
 
 function handleOperators(operator) {
@@ -84,21 +121,48 @@ function handleOperators(operator) {
         }
 
         if (secondOperand === "") {
-            operationChosen = operator;
-            displayInput.textContent = firstOperand + operator;
+            operationChosen = operator.textContent;
+            displayInput.textContent = firstOperand + operator.textContent;
             return;
         }
 
-        calculatedNumber = operate(operationChosen, firstOperand, secondOperand);
+        const calculatedNumber = operate(operationChosen, firstOperand, secondOperand);
         displayResult.textContent = calculatedNumber;
-        displayInput.textContent = calculatedNumber + operator;
+        displayInput.textContent = calculatedNumber + operator.textContent;
         firstOperand = calculatedNumber;
         secondOperand = "";
-        operationChosen = operator;
+        operationChosen = operator.textContent;
     }
     else {
-        operationChosen = operator;
-        displayInput.textContent += operator;
+        displayInput.textContent += operator.textContent;
+        operationChosen = operator.textContent;
+    }
+}
+
+factorialElement.addEventListener("click", handleFactorial);
+
+function handleFactorial() {
+
+    if (operationChosen === null) {
+        operationChosen = "x!";
+        const calculatedNumber = operate(operationChosen, firstOperand);
+        displayResult.textContent = calculatedNumber;
+        displayInput.textContent = calculatedNumber;
+        firstOperand = calculatedNumber;
+        secondOperand = "";
+        operationChosen = null;
+    }
+}
+
+powerElement.addEventListener("click", handlePower);
+
+function handlePower() {
+
+    if (operationChosen !== null) {
+        return;
+    }
+    else if (firstOperand !== "") {
+        operationChosen = powerElement.textContent;
     }
 }
 
@@ -113,7 +177,7 @@ function handleEquals() {
             return;
         }
 
-        calculatedNumber = operate(operationChosen, firstOperand, secondOperand);
+        const calculatedNumber = operate(operationChosen, firstOperand, secondOperand);
         displayResult.textContent = calculatedNumber;
         displayInput.textContent = calculatedNumber;
         firstOperand = calculatedNumber;
