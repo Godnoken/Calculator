@@ -238,6 +238,8 @@ function handleInvalidMath()  {
 
 window.addEventListener("keydown", handleKeyboard);
 
+let keysPressed = {}
+
 function handleKeyboard(event) {
 
     let buttonToAnimate;
@@ -248,11 +250,16 @@ function handleKeyboard(event) {
         }
     })
 
+    keysPressed[event.key] = true;
+
     if (event.key >= 0 && event.key <= 9) handleNumbers(event.key), handlePulseAnimation(buttonToAnimate);
     if (event.key === ".") handleDecimal(), handlePulseAnimation(buttonToAnimate);
     if (event.key === "Escape") handleClear(), handlePulseAnimation(clear);
     if (event.key === "Backspace") handleUndo(), handlePulseAnimation(undo);
     if (event.key === "Enter") handleEquals(), handlePulseAnimation(equals);
+    if (event.key === "Shift" && event.key === "!") console.log("confirm")
+    if (keysPressed["Shift"] && event.key === "!") handleFactorial(), handlePulseAnimation(factorialElement);
+    if (keysPressed["Shift"] && event.key === "n" || event.key === "N") handlePower(), handlePulseAnimation(powerElement);
     if (
         event.key === "/"
         ||
@@ -263,6 +270,8 @@ function handleKeyboard(event) {
         event.key === "*"
         ) handleOperators(event.key), handlePulseAnimation(buttonToAnimate);
 }
+
+window.addEventListener("keyup", () => keysPressed["Shift"] = false);
 
 document.querySelectorAll(".button").forEach((button) => {
     button.addEventListener("click", () => handlePulseAnimation(button))
