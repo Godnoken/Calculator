@@ -29,11 +29,21 @@ function divide(a, b) {
     return a / b;
 }
 
-function power(a, b) {
-    let powerSum = a;
+function power(base, exponent) {
+    
+    let powerSum = base;
+
+    if (secondOperand.includes("-")) {
+
+        for (let i = 0; i > exponent + 1; i--) {
+            powerSum = powerSum * base;
+        }
+
+        return powerSum = divide(1, powerSum);
+    }
   
-      for (let i = 0; i < b - 1; i++) {
-      powerSum = powerSum * a;
+    for (let i = 0; i < exponent - 1; i++) {
+        powerSum = powerSum * base;
     }
   
     return powerSum;
@@ -73,6 +83,7 @@ function operate(operation, number1, number2) {
             break;
         case "xy":
             operation = power;
+            if (secondOperand.includes("-")) return operation(number1, number2);
             break;
         case "x!":
             return Math.round(factorial(number1) * 1000) / 1000;
@@ -88,7 +99,9 @@ document.querySelectorAll(".number").forEach((number) => {
 function handleNumbers(number) {
 
     if (displayInput.textContent === "0") {
-        displayInput.textContent = "";
+        displayInput.textContent = number;
+        firstOperand = number;
+        return;
     }
 
     if (displayInput.textContent.length >= 20) {
@@ -106,7 +119,7 @@ function handleNumbers(number) {
         return;
     }
 
-    displayInput.textContent += number.toString();
+    displayInput.textContent += number;
 }
 
 document.querySelectorAll(".operator").forEach((operator) => {
@@ -114,6 +127,15 @@ document.querySelectorAll(".operator").forEach((operator) => {
 })
 
 function handleOperators(operator) {
+
+    if (operationChosen === "xy" && operator === "-") {
+        if (secondOperand.includes("-") || secondOperand !== "") return;
+        console.log(secondOperand)
+        secondOperand += operator;
+        displayInput.innerHTML += `<sup>${operator}</sup`;
+        console.log(secondOperand)
+        return;
+    }
 
     if (firstOperand === "" && operator !== "-") return;
     if (firstOperand === "-" || firstOperand === "-" && operator !== "") return;
@@ -142,7 +164,6 @@ function handleOperators(operator) {
         displayInput.textContent += operator;
         return;
     }
-    
 
     if (operationChosen !== null) {
 
@@ -174,7 +195,9 @@ factorialElement.addEventListener("click", handleFactorial);
 
 function handleFactorial() {
 
-    if (firstOperand < 0) return handleInvalidMath();
+    const number = Number(firstOperand);
+
+    if (firstOperand < 0 || !Number.isInteger(number)) return handleInvalidMath();
 
     if (operationChosen === null) {
         operationChosen = "x!";
@@ -222,6 +245,8 @@ function handleEquals() {
 document.querySelector("#decimal").addEventListener("click", handleDecimal);
 
 function handleDecimal() {
+
+    if (operationChosen === "xy") return;
 
     if (secondOperand === "" && !firstOperand.includes(".")) {
         firstOperand = firstOperand + ".";
