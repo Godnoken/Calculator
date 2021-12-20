@@ -293,3 +293,19 @@ a {
       transform: scale(1);
     }
 }
+
+
+
+/* Media Queries */
+
+@media only screen and (max-width: 700px) {
+    html {
+        font-size: 40%;
+    }
+}
+
+@media only screen and (max-width: 300px) {
+    html {
+        font-size: 35%;
+    }
+}
