@@ -1,4 +1,4 @@
-let firstOperand = "";
+let firstOperand = "0";
 let secondOperand = "";
 let operationChosen = null;
 
@@ -115,11 +115,34 @@ document.querySelectorAll(".operator").forEach((operator) => {
 
 function handleOperators(operator) {
 
-    if (firstOperand === "" && operator === "-") {
-        firstOperand = operator;
+    if (firstOperand === "" && operator !== "-") return;
+    if (firstOperand === "-" || firstOperand === "-" && operator !== "") return;
+    if (secondOperand === "-" && operator !== "") return;
+
+    if (operationChosen !== "-" && operationChosen !== null && operator === "-") {
+        secondOperand = operator;
+        displayInput.textContent = firstOperand + operationChosen + secondOperand;
+        return;
     }
 
-    if (firstOperand === "-") return displayInput.textContent = operator;
+    if (secondOperand === "" && operator !== "-") {
+        operationChosen = operator;
+        displayInput.textContent = firstOperand + operator;
+        return;
+    }
+
+    if (firstOperand === "" && operator === "-") {
+        firstOperand = operator;
+        displayInput.textContent = operator
+        return;
+    }
+    
+    if (secondOperand === "" && operationChosen === "-" && firstOperand !== "-") {
+        secondOperand = operator;
+        displayInput.textContent += operator;
+        return;
+    }
+    
 
     if (operationChosen !== null) {
 
@@ -214,7 +237,7 @@ function handleDecimal() {
 document.querySelector("#clear").addEventListener("click", handleClear);
 
 function handleClear() {
-    firstOperand = "";
+    firstOperand = "0";
     secondOperand = "";
     operationChosen = null;
     displayInput.textContent = "0";
@@ -267,7 +290,6 @@ function handleKeyboard(event) {
     if (event.key === "Escape") handleClear(), handlePulseAnimation(clear);
     if (event.key === "Backspace") handleUndo(), handlePulseAnimation(undo);
     if (event.key === "Enter") handleEquals(), handlePulseAnimation(equals);
-    if (event.key === "Shift" && event.key === "!") console.log("confirm")
     if (keysPressed["Shift"] && event.key === "!") handleFactorial(), handlePulseAnimation(factorialElement);
     if (keysPressed["Shift"] && event.key === "n" || event.key === "N") handlePower(), handlePulseAnimation(powerElement);
     if (
