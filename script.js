@@ -115,9 +115,15 @@ document.querySelectorAll(".operator").forEach((operator) => {
 
 function handleOperators(operator) {
 
+    if (firstOperand === "" && operator === "-") {
+        firstOperand = operator;
+    }
+
+    if (firstOperand === "-") return displayInput.textContent = operator;
+
     if (operationChosen !== null) {
 
-        if (operationChosen == "/", secondOperand === "0") {
+        if (operationChosen == "/" && secondOperand === "0") {
             handleInvalidMath();
             return;
         }
@@ -144,6 +150,8 @@ function handleOperators(operator) {
 factorialElement.addEventListener("click", handleFactorial);
 
 function handleFactorial() {
+
+    if (firstOperand < 0) return handleInvalidMath();
 
     if (operationChosen === null) {
         operationChosen = "x!";
@@ -174,7 +182,7 @@ function handleEquals() {
 
     if (operationChosen !== null && secondOperand !== "") {
 
-        if (operationChosen == "/", secondOperand === "0") {
+        if (operationChosen == "/" && secondOperand === "0") {
             handleInvalidMath();
             return;
         }
