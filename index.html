@@ -1,39 +1,109 @@
 <!DOCTYPE html>
 
 <html>
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
-        <link rel="stylesheet" href="css/normalize.css">
-        <link rel="stylesheet" href="css/style.css">
-        <script src="script.js" defer></script>
-    </head>
-    <body>
-        <main id="calculator">
-            <div id="display">
-                <p id="displayResult" class="displayText"></p>
-                <p id="displayInput" clasS="displayText">0</p>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <p>Instructions</p>
+        <img src="down-arrow.png" id="instructionsArrow">
+    </header>
+    <main id="calculator">
+        <div id="instructionsContainer">
+            <div id="instructionsTextContainer">
+                <div id="instructionsHeader">
+                    <p>Usage = U</p>
+                    <p>Keyboard = K</p>
+                </div>
+                <div id="instructionsContent">
+                    <div class="instructionsItems">
+                        <p class="instructionsDeletes">AC</p>
+                        <p>U = CLEAR</p>
+                        <p>K = ESCAPE</p>
+                    </div>
+                    <div class="instructionsItems">
+                        <p class="instructionsDeletes">DEL</p>
+                        <p>U = DELETE</p>
+                        <p>K = BACKSPACE</p>
+                    </div>
+                    <div class="instructionsItems">
+                        <p class="instructionsOperators">/</p>
+                        <p>U = DIVIDE</p>
+                        <p>K = /</p>
+                    </div>
+                    <div class="instructionsItems">
+                        <p class="instructionsOperators">*</p>
+                        <p>U = MULTIPLY</p>
+                        <p>K = *</p>
+                    </div>
+                    <div class="instructionsItems">
+                        <p class="instructionsOperators">-</p>
+                        <p>U = SUBTRACT</p>
+                        <p>K = -</p>
+                    </div>
+                    <div class="instructionsItems">
+                        <p class="instructionsOperators">+</p>
+                        <p>U = ADD</p>
+                        <p>K = +</p>
+                    </div>
+                    <div class="instructionsItems">
+                        <p class="instructionsOperators">x<sup>y</sup></p>
+                        <p>U = EXPONENTIATION</p>
+                        <p>K = SHIFT + N</p>
+                    </div>
+                    <div class="instructionsItems">
+                        <p class="instructionsOperators">x!</p>
+                        <p>U = FACTORIAL</p>
+                        <p>K = SHIFT + !</p>
+                    </div>
+                    <div class="instructionsItems">
+                        <p class="instructionsOthers">=</p>
+                        <p>U = CALCULATE</p>
+                        <p>K = ENTER</p>
+                    </div>
+                    <div class="instructionsItems">
+                        <p class="instructionsOthers">.</p>
+                        <p>U = DECIMAL</p>
+                        <p>K = .</p>
+                    </div>
+                </div>
             </div>
-            <div id="clear" class="button"><span>AC</span></div>
-            <div id="undo" class="button"><span>DEL</span></div>
-            <div id="divide" class="button operator"><span>/</span></div>
-            <div id="multiply" class="button operator"><span>*</span></div>
-            <div id="subtract" class="button operator"><span>-</span></div>
-            <div id="add" class="button operator"><span>+</span></div>
-            <div id="power" class="button advancedOperator"><span>x<sup>y</sup></span></div>
-            <div id="factorial" class="button advancedOperator"><span>x!</span></div>
-            <div id="equals" class="button"><span>=</span></div>
-            <div id="decimal" class="button"><span>.</span></div>
-            <div id="zero" class="button number"><span>0</span></div>
-            <div id="one" class="button number"><span>1</span></div>
-            <div id="two" class="button number"><span>2</span></div>
-            <div id="three" class="button number"><span>3</span></div>
-            <div id="four" class="button number"><span>4</span></div>
-            <div id="five" class="button number"><span>5</span></div>
-            <div id="six" class="button number"><span>6</span></div>
-            <div id="seven" class="button number"><span>7</span></div>
-            <div id="eight" class="button number"><span>8</span></div>
-            <div id="nine" class="button number"><span>9</span></div>
-        </main>
-        <p id="codeWriter">Code written by: <a href='https://github.com/Godnoken' target='_blank'>Godnoken <img src='github.svg' id='githubIcon'></p>
-    </body>
+        </div>
+        <div id="display">
+            <p id="displayResult" class="displayText"></p>
+            <p id="displayInput" clasS="displayText">0</p>
+        </div>
+        <div id="clear" class="button"><span>AC</span></div>
+        <div id="undo" class="button"><span>DEL</span></div>
+        <div id="divide" class="button operator"><span>/</span></div>
+        <div id="multiply" class="button operator"><span>*</span></div>
+        <div id="subtract" class="button operator"><span>-</span></div>
+        <div id="add" class="button operator"><span>+</span></div>
+        <div id="power" class="button advancedOperator"><span>x<sup>y</sup></span></div>
+        <div id="factorial" class="button advancedOperator"><span>x!</span></div>
+        <div id="equals" class="button"><span>=</span></div>
+        <div id="decimal" class="button"><span>.</span></div>
+        <div id="zero" class="button number"><span>0</span></div>
+        <div id="one" class="button number"><span>1</span></div>
+        <div id="two" class="button number"><span>2</span></div>
+        <div id="three" class="button number"><span>3</span></div>
+        <div id="four" class="button number"><span>4</span></div>
+        <div id="five" class="button number"><span>5</span></div>
+        <div id="six" class="button number"><span>6</span></div>
+        <div id="seven" class="button number"><span>7</span></div>
+        <div id="eight" class="button number"><span>8</span></div>
+        <div id="nine" class="button number"><span>9</span></div>
+    </main>
+    <footer>
+        <p id="codeWriter">Code written by: <a href='https://github.com/Godnoken' target='_blank'>Godnoken <img
+                    src='github.svg' id='githubIcon'></p>
+    </footer>
+</body>
+
 </html>

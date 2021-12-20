@@ -2,6 +2,8 @@ let firstOperand = "";
 let secondOperand = "";
 let operationChosen = null;
 
+const instructionsArrow = document.querySelector("#instructionsArrow");
+const instructions = document.querySelector("#instructionsContainer");
 const buttons = document.querySelectorAll(".button");
 const clear = document.querySelector("#clear");
 const undo = document.querySelector("#undo");
@@ -281,4 +283,27 @@ function handlePulseAnimation(button) {
     button.classList.remove("active");
     button.offsetWidth;
     button.classList.add("active");
+}
+
+instructionsArrow.addEventListener("click", handleInstructionsAnimation);
+
+let rotationDegrees = 180;
+
+function handleInstructionsAnimation() {
+
+    if (instructions.className === "activeInstructions") {
+        instructions.classList.remove("activeInstructions");
+        instructions.classList.add("activeInstructionsReverse");
+        instructionsArrow.style.transform = `rotate(${rotationDegrees}deg)`;
+        rotationDegrees += 180;
+    } else if (instructions.className === "activeInstructionsReverse") {
+        instructions.classList.remove("activeInstructionsReverse");
+        instructions.classList.add("activeInstructions");
+        instructionsArrow.style.transform = `rotate(${rotationDegrees}deg)`;
+        rotationDegrees += 180;
+    } else {
+        instructions.classList.add("activeInstructions");
+        instructionsArrow.style.transform = `rotate(${rotationDegrees}deg)`;
+        rotationDegrees += 180;
+    }
 }
