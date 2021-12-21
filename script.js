@@ -145,26 +145,28 @@ function handleOperators(operator) {
         console.log(secondOperand)
         return;
     }
-
+    
     if (firstOperand === "" && operator !== "-") return;
     if (firstOperand === "-" || firstOperand === "-" && operator !== "") return;
     if (secondOperand === "-" && operator !== "") return;
-
+    
     if (operationChosen !== "-" && operationChosen !== null && operator === "-") {
         secondOperand = operator;
         displayInput.textContent = firstOperand + operationChosen + secondOperand;
         return;
     }
 
-    if (secondOperand === "" && operator !== "-") {
-        operationChosen = operator;
-        displayInput.textContent = firstOperand + operator;
+    if (firstOperand === "" && operator === "-" || firstOperand === "0" && operator === "-") {
+        firstOperand = operator;
+        displayInput.textContent = operator
         return;
     }
 
-    if (firstOperand === "" && operator === "-") {
-        firstOperand = operator;
-        displayInput.textContent = operator
+    if (firstOperand === "0") return;
+    
+    if (secondOperand === "" && operator !== "-") {
+        operationChosen = operator;
+        displayInput.textContent = firstOperand + operator;
         return;
     }
     
