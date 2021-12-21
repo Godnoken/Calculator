@@ -1,73 +1,88 @@
+/** Global variables */
+
 let firstOperand = "0";
 let secondOperand = "";
 let operationChosen = null;
 
-const instructionsArrow = document.querySelector("#instructionsArrow");
-const instructions = document.querySelector("#instructionsContainer");
-const buttons = document.querySelectorAll(".button");
-const clear = document.querySelector("#clear");
-const undo = document.querySelector("#undo");
-const equals = document.querySelector("#equals");
+const instructionsArrowElement = document.querySelector("#instructionsArrow");
+const instructionsElement = document.querySelector("#instructionsContainer");
+const buttonElements = document.querySelectorAll(".button");
+const numberElements = document.querySelectorAll(".number");
+const operatorElements = document.querySelectorAll(".operator");
 const powerElement = document.querySelector("#power");
 const factorialElement = document.querySelector("#factorial");
-let displayInput = document.querySelector("#displayInput");
-let displayResult = document.querySelector("#displayResult");
+const decimalElement = document.querySelector("#decimal");
+const equalElement = document.querySelector("#equals");
+const clearElement = document.querySelector("#clear");
+const undoElement = document.querySelector("#undo");
+const displayInput = document.querySelector("#displayInput");
+const displayResult = document.querySelector("#displayResult");
 
-function add(a, b) {
-    return a + b;
+
+
+
+/** Math Functions */
+
+function add(firstNumber, secondNumber) {
+    return firstNumber + secondNumber;
 }
 
-function subtract(a, b) {
-    return a - b;
+function subtract(firstNumber, secondNumber) {
+    return firstNumber - secondNumber;
 }
 
-function multiply(a, b) {
-    return a * b;
+function multiply(firstNumber, secondNumber) {
+    return firstNumber * secondNumber;
 }
 
-function divide(a, b) {
-    return a / b;
+function divide(firstNumber, secondNumber) {
+    return firstNumber / secondNumber;
 }
 
 function power(base, exponent) {
 
     let powerSum = base;
 
+    // Negative exponentiation
     if (secondOperand.includes("-")) {
-
         for (let i = 0; i > exponent + 1; i--) {
             powerSum = powerSum * base;
         }
-
         return powerSum = divide(1, powerSum);
     }
-  
+
+    // Positive exponentiation
     for (let i = 0; i < exponent - 1; i++) {
         powerSum = powerSum * base;
     }
-  
     return powerSum;
 }
 
-function factorial(a) {
-	let sum = a;
+function factorial(number) {
+    let sum = number;
 
-  if (a === 0) {
-    return 1;
-  }
+    if (number === 0) return 1;
 
-  while (a > 1) {
-    a--;
-    sum = sum * a;
-  }
+    while (number > 1) {
+        number--;
+        sum = sum * number;
+    }
 
-  return sum;
+    return sum;
 }
 
+
+
+
+/** Calculator functions */
+
+// Reads which operation the user chose and calculates
 function operate(operation, number1, number2) {
+
+    // Convert operands from strings to numbers
     number1 = Number(number1);
     number2 = Number(number2);
-    
+
     switch (operation) {
         case "+":
             operation = add;
@@ -83,16 +98,18 @@ function operate(operation, number1, number2) {
             break;
         case "xy":
             operation = power;
+            // If user input a negative exponent, don't limit decimal amount
             if (secondOperand.includes("-")) return operation(number1, number2);
             break;
         case "x!":
-            return Math.round(factorial(number1) * 1000) / 1000;
+            operation = factorial;
+            break;
     }
 
     return Math.round(operation(number1, number2) * 1000) / 1000;
 }
 
-document.querySelectorAll(".number").forEach((number) => {
+numberElements.forEach((number) => {
     number.addEventListener("click", () => handleNumbers(number.textContent))
 })
 
@@ -114,11 +131,9 @@ function handleNumbers(number) {
         return;
     }
 
-    
-    
     if (operationChosen !== null) {
         secondOperand += number;
-        
+
     } else {
         firstOperand += number;
     }
@@ -131,7 +146,7 @@ function handleNumbers(number) {
     displayInput.textContent += number;
 }
 
-document.querySelectorAll(".operator").forEach((operator) => {
+operatorElements.forEach((operator) => {
     operator.addEventListener("click", () => handleOperators(operator.textContent))
 })
 
@@ -145,11 +160,11 @@ function handleOperators(operator) {
         console.log(secondOperand)
         return;
     }
-    
+
     if (firstOperand === "" && operator !== "-") return;
     if (firstOperand === "-" || firstOperand === "-" && operator !== "") return;
     if (secondOperand === "-" && operator !== "") return;
-    
+
     if (operationChosen !== "-" && operationChosen !== null && operator === "-") {
         secondOperand = operator;
         displayInput.textContent = firstOperand + operationChosen + secondOperand;
@@ -163,13 +178,13 @@ function handleOperators(operator) {
     }
 
     if (firstOperand === "0") return;
-    
+
     if (secondOperand === "" && operator !== "-") {
         operationChosen = operator;
         displayInput.textContent = firstOperand + operator;
         return;
     }
-    
+
     if (secondOperand === "" && operationChosen === "-" && firstOperand !== "-") {
         secondOperand = operator;
         displayInput.textContent += operator;
@@ -208,7 +223,7 @@ function handleFactorial() {
 
     const number = Number(firstOperand);
 
-    if (firstOperand < 0 || !Number.isInteger(number)) return handleInvalidMath();
+    if (firstOperand < 0 || !Number.isInteger(number) || operationChosen !== null) return handleInvalidMath();
 
     if (operationChosen === null) {
         operationChosen = "x!";
@@ -233,7 +248,7 @@ function handlePower() {
     }
 }
 
-document.querySelector("#equals").addEventListener("click", handleEquals);
+equalElement.addEventListener("click", handleEquals);
 
 function handleEquals() {
 
@@ -253,7 +268,7 @@ function handleEquals() {
     }
 }
 
-document.querySelector("#decimal").addEventListener("click", handleDecimal);
+decimalElement.addEventListener("click", handleDecimal);
 
 function handleDecimal() {
 
@@ -269,7 +284,7 @@ function handleDecimal() {
     }
 }
 
-document.querySelector("#clear").addEventListener("click", handleClear);
+clearElement.addEventListener("click", handleClear);
 
 function handleClear() {
     firstOperand = "0";
@@ -279,7 +294,7 @@ function handleClear() {
     displayResult.textContent = "";
 }
 
-document.querySelector("#undo").addEventListener("click", handleUndo);
+undoElement.addEventListener("click", handleUndo);
 
 function handleUndo() {
 
@@ -296,13 +311,18 @@ function handleUndo() {
     displayInput.textContent = displayInput.textContent.slice(0, -1);
 }
 
-function handleInvalidMath()  {
-        displayResult.textContent ="MATH";
-        displayInput.textContent = "ERROR";
-        setTimeout(() => {
-            handleClear();
-        }, 2000)
+function handleInvalidMath() {
+    displayResult.textContent = "MATH";
+    displayInput.textContent = "ERROR";
+    setTimeout(() => {
+        handleClear();
+    }, 2000)
 }
+
+
+
+
+/** Keyboard support functions */
 
 window.addEventListener("keydown", handleKeyboard);
 
@@ -312,7 +332,7 @@ function handleKeyboard(event) {
 
     let buttonToAnimate;
 
-    buttons.forEach((button) => {
+    buttonElements.forEach((button) => {
         if (button.textContent == event.key.toString()) {
             buttonToAnimate = button;
         }
@@ -335,14 +355,17 @@ function handleKeyboard(event) {
         event.key === "-"
         ||
         event.key === "*"
-        ) handleOperators(event.key), handlePulseAnimation(buttonToAnimate);
+    ) handleOperators(event.key), handlePulseAnimation(buttonToAnimate);
 }
 
 window.addEventListener("keyup", () => keysPressed["Shift"] = false);
 
-document.querySelectorAll(".button").forEach((button) => {
-    button.addEventListener("click", () => handlePulseAnimation(button))
-})
+
+
+
+/** Animation functions */
+
+buttonElements.forEach((button) => { button.addEventListener("click", () => handlePulseAnimation(button)) })
 
 function handlePulseAnimation(button) {
     button.classList.remove("active");
@@ -350,25 +373,24 @@ function handlePulseAnimation(button) {
     button.classList.add("active");
 }
 
-instructionsArrow.addEventListener("click", handleInstructionsAnimation);
+instructionsArrowElement.addEventListener("click", handleInstructionsAnimation);
 
 let rotationDegrees = 180;
 
 function handleInstructionsAnimation() {
-
-    if (instructions.className === "activeInstructions") {
-        instructions.classList.remove("activeInstructions");
-        instructions.classList.add("activeInstructionsReverse");
-        instructionsArrow.style.transform = `rotate(${rotationDegrees}deg)`;
+    if (instructionsElement.className === "activeInstructions") {
+        instructionsElement.classList.remove("activeInstructions");
+        instructionsElement.classList.add("activeInstructionsReverse");
+        instructionsArrowElement.style.transform = `rotate(${rotationDegrees}deg)`;
         rotationDegrees += 180;
-    } else if (instructions.className === "activeInstructionsReverse") {
-        instructions.classList.remove("activeInstructionsReverse");
-        instructions.classList.add("activeInstructions");
-        instructionsArrow.style.transform = `rotate(${rotationDegrees}deg)`;
+    } else if (instructionsElement.className === "activeInstructionsReverse") {
+        instructionsElement.classList.remove("activeInstructionsReverse");
+        instructionsElement.classList.add("activeInstructions");
+        instructionsArrowElement.style.transform = `rotate(${rotationDegrees}deg)`;
         rotationDegrees += 180;
     } else {
-        instructions.classList.add("activeInstructions");
-        instructionsArrow.style.transform = `rotate(${rotationDegrees}deg)`;
+        instructionsElement.classList.add("activeInstructions");
+        instructionsArrowElement.style.transform = `rotate(${rotationDegrees}deg)`;
         rotationDegrees += 180;
     }
 }
