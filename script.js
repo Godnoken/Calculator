@@ -109,6 +109,19 @@ function operate(operation, number1, number2) {
     return Math.round(operation(number1, number2) * 1000) / 1000;
 }
 
+
+// Executes operate function and displays result
+function handleOperation(possibleOperator = "", nullOrOperator = null) {
+    const calculatedNumber = operate(operationChosen, firstOperand, secondOperand);
+    displayResult.textContent = calculatedNumber;
+    displayInput.textContent = calculatedNumber + possibleOperator;
+    firstOperand = calculatedNumber;
+    secondOperand = "";
+    operationChosen = nullOrOperator;
+}
+
+
+// Number buttons logic
 numberElements.forEach((number) => {
     number.addEventListener("click", () => handleNumbers(number.textContent))
 })
@@ -146,6 +159,8 @@ function handleNumbers(number) {
     displayInput.textContent += number;
 }
 
+
+// Basic operators buttons logic
 operatorElements.forEach((operator) => {
     operator.addEventListener("click", () => handleOperators(operator.textContent))
 })
@@ -204,12 +219,7 @@ function handleOperators(operator) {
             return;
         }
 
-        const calculatedNumber = operate(operationChosen, firstOperand, secondOperand);
-        displayResult.textContent = calculatedNumber;
-        displayInput.textContent = calculatedNumber + operator;
-        firstOperand = calculatedNumber;
-        secondOperand = "";
-        operationChosen = operator;
+        handleOperation(operator, operator);
     }
     else {
         displayInput.textContent += operator;
@@ -217,73 +227,67 @@ function handleOperators(operator) {
     }
 }
 
+
+// Factorial button logic
 factorialElement.addEventListener("click", handleFactorial);
 
 function handleFactorial() {
 
     const number = Number(firstOperand);
 
+    // If user has input invalid math when clicking factorial, execute handleInvalidMath
     if (firstOperand < 0 || !Number.isInteger(number) || operationChosen !== null) return handleInvalidMath();
 
-    if (operationChosen === null) {
-        operationChosen = "x!";
-        const calculatedNumber = operate(operationChosen, firstOperand);
-        displayResult.textContent = calculatedNumber;
-        displayInput.textContent = calculatedNumber;
-        firstOperand = calculatedNumber;
-        secondOperand = "";
-        operationChosen = null;
-    }
+    return operationChosen = "x!", handleOperation();
 }
 
+
+// Power/Exponentiation button logic
 powerElement.addEventListener("click", handlePower);
 
 function handlePower() {
 
-    if (operationChosen !== null || firstOperand === "0") {
-        return;
-    }
-    else if (firstOperand !== "") {
-        operationChosen = powerElement.textContent;
-    }
+    if (operationChosen !== null || firstOperand === "0" || firstOperand === "") return;
+
+    return operationChosen = "xy";
 }
 
+
+// Equal button logic
 equalElement.addEventListener("click", handleEquals);
 
 function handleEquals() {
 
-    if (operationChosen !== null && secondOperand !== "") {
+    if (operationChosen == "/" && secondOperand === "0") return handleInvalidMath();
 
-        if (operationChosen == "/" && secondOperand === "0") {
-            handleInvalidMath();
-            return;
-        }
-
-        const calculatedNumber = operate(operationChosen, firstOperand, secondOperand);
-        displayResult.textContent = calculatedNumber;
-        displayInput.textContent = calculatedNumber;
-        firstOperand = calculatedNumber;
-        secondOperand = "";
-        operationChosen = null;
-    }
+    if (operationChosen !== null && secondOperand !== "") return handleOperation();
 }
 
+
+// Decimal button logic
 decimalElement.addEventListener("click", handleDecimal);
 
 function handleDecimal() {
 
+    // Disables decimals as exponents
     if (operationChosen === "xy") return;
+
+    if (firstOperand !== "" && !firstOperand.includes(".") && operationChosen === null) {
+        firstOperand = firstOperand + ".";
+        displayInput.textContent += ".";
+        return;
+    }
 
     if (secondOperand !== "" && !secondOperand.includes(".")) {
         secondOperand = secondOperand + ".";
         displayInput.textContent += ".";
+        return;
     }
-    else if (firstOperand !== "" && !firstOperand.includes(".") && operationChosen === null) {
-        firstOperand = firstOperand + ".";
-        displayInput.textContent += ".";
-    }
+    
 }
 
+
+// Clears input & output on calculator
 clearElement.addEventListener("click", handleClear);
 
 function handleClear() {
@@ -294,12 +298,14 @@ function handleClear() {
     displayResult.textContent = "";
 }
 
+
+// Deletes last operand or operator on the calculator
 undoElement.addEventListener("click", handleUndo);
 
 function handleUndo() {
 
     if (operationChosen === null) {
-        firstOperand = firstOperand.toString().slice(0, -1);
+        firstOperand = firstOperand.slice(0, -1);
     }
     else if (displayInput.textContent.indexOf(operationChosen) === displayInput.textContent.length - 1) {
         operationChosen = null;
@@ -307,10 +313,12 @@ function handleUndo() {
     else {
         secondOperand = secondOperand.slice(0, -1);
     }
-
+    
     displayInput.textContent = displayInput.textContent.slice(0, -1);
 }
 
+
+// Returns error on screen and clears calculator after 2 seconds
 function handleInvalidMath() {
     displayResult.textContent = "MATH";
     displayInput.textContent = "ERROR";
@@ -326,38 +334,29 @@ function handleInvalidMath() {
 
 window.addEventListener("keydown", handleKeyboard);
 
+// Keeps track of first button pressed on keyboard. I.e. enables the reading of two button inputs
 let keysPressed = {}
 
 function handleKeyboard(event) {
 
-    let buttonToAnimate;
+    // Reads & sets which button should be animated
+    buttonElements.forEach((button) => { if (button.classList[0] == event.key.toString()) handlePulseAnimation(button) })
 
-    buttonElements.forEach((button) => {
-        if (button.textContent == event.key.toString()) {
-            buttonToAnimate = button;
-        }
-    })
-
+    // Tracks first button pressed
     keysPressed[event.key] = true;
 
-    if (event.key >= 0 && event.key <= 9) handleNumbers(event.key), handlePulseAnimation(buttonToAnimate);
-    if (event.key === ".") handleDecimal(), handlePulseAnimation(buttonToAnimate);
-    if (event.key === "Escape") handleClear(), handlePulseAnimation(clear);
-    if (event.key === "Backspace") handleUndo(), handlePulseAnimation(undo);
-    if (event.key === "Enter") handleEquals(), handlePulseAnimation(equals);
-    if (keysPressed["Shift"] && event.key === "!") handleFactorial(), handlePulseAnimation(factorialElement);
-    if (keysPressed["Shift"] && event.key === "n" || event.key === "N") handlePower(), handlePulseAnimation(powerElement);
-    if (
-        event.key === "/"
-        ||
-        event.key === "+"
-        ||
-        event.key === "-"
-        ||
-        event.key === "*"
-    ) handleOperators(event.key), handlePulseAnimation(buttonToAnimate);
+    if (event.key >= 0 && event.key <= 9) handleNumbers(event.key);
+    if (event.key === ".") handleDecimal();
+    if (event.key === "Escape") handleClear();
+    if (event.key === "Backspace") handleUndo();
+    if (event.key === "Enter") handleEquals();
+    if (keysPressed["Shift"] && event.key === "!") handleFactorial();
+    if (keysPressed["Shift"] && event.key === "N") handlePower();
+    if (event.key === "/" || event.key === "+" ||
+        event.key === "-" || event.key === "*") handleOperators(event.key);
 }
 
+// Resets saved input
 window.addEventListener("keyup", () => keysPressed["Shift"] = false);
 
 
@@ -365,6 +364,7 @@ window.addEventListener("keyup", () => keysPressed["Shift"] = false);
 
 /** Animation functions */
 
+// Button pressed animation
 buttonElements.forEach((button) => { button.addEventListener("click", () => handlePulseAnimation(button)) })
 
 function handlePulseAnimation(button) {
@@ -373,8 +373,10 @@ function handlePulseAnimation(button) {
     button.classList.add("active");
 }
 
+// Instructions animation
 instructionsArrowElement.addEventListener("click", handleInstructionsAnimation);
 
+// Variable used to make sure arrow spins like a clock when clicked
 let rotationDegrees = 180;
 
 function handleInstructionsAnimation() {
