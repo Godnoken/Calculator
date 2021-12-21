@@ -257,15 +257,14 @@ function handleDecimal() {
 
     if (operationChosen === "xy") return;
 
-    if (secondOperand === "" && !firstOperand.includes(".")) {
-        firstOperand = firstOperand + ".";
-        displayInput.textContent += ".";
-    }
-    else if (secondOperand !== "" && !secondOperand.includes(".")) {
+    if (secondOperand !== "" && !secondOperand.includes(".")) {
         secondOperand = secondOperand + ".";
         displayInput.textContent += ".";
     }
-
+    else if (firstOperand !== "" && !firstOperand.includes(".") && operationChosen === null) {
+        firstOperand = firstOperand + ".";
+        displayInput.textContent += ".";
+    }
 }
 
 document.querySelector("#clear").addEventListener("click", handleClear);
