@@ -106,6 +106,7 @@ function operate(operation, number1, number2) {
             break;
     }
 
+    // Limit decimal points to 3
     return Math.round(operation(number1, number2) * 1000) / 1000;
 }
 
@@ -122,50 +123,51 @@ function handleOperation(possibleOperator = "", nullOrOperator = null) {
 
 
 // Number buttons logic
-numberElements.forEach((number) => {
-    number.addEventListener("click", () => handleNumbers(number.textContent))
-})
+numberElements.forEach((number) => {number.addEventListener("click", () => handleNumbers(number.textContent))})
 
 function handleNumbers(number) {
 
-    if (displayInput.textContent === "0") {
+    // Prevents user from inputs longer than 20
+    if (displayInput.textContent.length > 20) return;
+
+    // Prevents user from inputting more than one 0 unless it's a decimal number
+    if (firstOperand === "0") {
         displayInput.textContent = number;
         firstOperand = number;
         return;
     }
 
-    if (displayInput.textContent.length >= 20) {
-        return;
-    }
-
-    if (secondOperand === "0" && number !== "0") {
-        secondOperand = number;
+    if (secondOperand === "0") {
         displayInput.textContent = displayInput.textContent.slice(0, -1) + secondOperand;
+        secondOperand = number;
         return;
     }
 
+    // If operator exists, add number to second operand. If not, add number to first operand
     if (operationChosen !== null) {
         secondOperand += number;
-
     } else {
         firstOperand += number;
     }
 
+    // If exponentiation chosen, change the way the second operand is displayed on calculator
     if (operationChosen === "xy") {
         displayInput.innerHTML += `<sup>${number}</sup`;
         return;
     }
 
+    // Update display with number
     displayInput.textContent += number;
 }
 
 
 // Basic operators buttons logic
-operatorElements.forEach((operator) => {
-    operator.addEventListener("click", () => handleOperators(operator.textContent))
-})
+operatorElements.forEach((operator) => {operator.addEventListener("click", () => handleOperators(operator.textContent))})
 
 function handleOperators(operator) {
+
+    // Prevents user from inputs longer than 20
+    if (displayInput.textContent.length > 20) return;
 
     if (operationChosen === "xy" && operator === "-") {
         if (secondOperand.includes("-") || secondOperand !== "") return;
