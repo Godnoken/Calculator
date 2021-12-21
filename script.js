@@ -30,7 +30,7 @@ function divide(a, b) {
 }
 
 function power(base, exponent) {
-    
+
     let powerSum = base;
 
     if (secondOperand.includes("-")) {
@@ -107,9 +107,18 @@ function handleNumbers(number) {
     if (displayInput.textContent.length >= 20) {
         return;
     }
+
+    if (secondOperand === "0" && number !== "0") {
+        secondOperand = number;
+        displayInput.textContent = displayInput.textContent.slice(0, -1) + secondOperand;
+        return;
+    }
+
+    
     
     if (operationChosen !== null) {
         secondOperand += number;
+        
     } else {
         firstOperand += number;
     }
