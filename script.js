@@ -225,7 +225,7 @@ powerElement.addEventListener("click", handlePower);
 
 function handlePower() {
 
-    if (operationChosen !== null) {
+    if (operationChosen !== null || firstOperand === "0") {
         return;
     }
     else if (firstOperand !== "") {
