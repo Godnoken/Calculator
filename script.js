@@ -113,6 +113,7 @@ function operate(operation, number1, number2) {
 
 // Executes operate function and displays result
 function handleOperation(possibleOperator = "", nullOrOperator = null) {
+    if (operationChosen == "/" && secondOperand === "0") return handleInvalidMath();
     const calculatedNumber = operate(operationChosen, firstOperand, secondOperand);
     displayResult.textContent = calculatedNumber;
     displayInput.textContent = calculatedNumber + possibleOperator;
@@ -123,7 +124,7 @@ function handleOperation(possibleOperator = "", nullOrOperator = null) {
 
 
 // Number buttons logic
-numberElements.forEach((number) => {number.addEventListener("click", () => handleNumbers(number.textContent))})
+numberElements.forEach((number) => { number.addEventListener("click", () => handleNumbers(number.textContent)) })
 
 function handleNumbers(number) {
 
@@ -162,71 +163,46 @@ function handleNumbers(number) {
 
 
 // Basic operators buttons logic
-operatorElements.forEach((operator) => {operator.addEventListener("click", () => handleOperators(operator.textContent))})
+operatorElements.forEach((operator) => { operator.addEventListener("click", () => handleOperators(operator.textContent)) })
 
-function handleOperators(operator) {
+function handleOperators(operatorClicked) {
+    
+    // If second operand contains a number, execute handleOperation function
+    if (Number(secondOperand)) return handleOperation(operatorClicked, operatorClicked);
 
     // Prevents user from inputs longer than 20
     if (displayInput.textContent.length > 20) return;
 
-    if (operationChosen === "xy" && operator === "-") {
+    // Handles negative exponentiation
+    if (operationChosen === "xy" && operatorClicked === "-") {
         if (secondOperand.includes("-") || secondOperand !== "") return;
-        console.log(secondOperand)
-        secondOperand += operator;
-        displayInput.innerHTML += `<sup>${operator}</sup`;
-        console.log(secondOperand)
+        secondOperand += operatorClicked;
+        displayInput.innerHTML += `<sup>${operatorClicked}</sup`;
         return;
     }
 
-    if (firstOperand === "" && operator !== "-") return;
-    if (firstOperand === "-" || firstOperand === "-" && operator !== "") return;
-    if (secondOperand === "-" && operator !== "") return;
+    // Prevents user from inputting any operator as first input apart from "-" if there is no operand
+    if (firstOperand === "" && operatorClicked !== "-" || firstOperand === "0" && operatorClicked !== "-") return;
+    
+    // Lets user input "-" if first operand is empty or set to 0. Replaces 0
+    if (firstOperand === "" || firstOperand === "0") {
+        firstOperand = operatorClicked;
+        displayInput.textContent = operatorClicked;
+        return;
+    }
 
-    if (operationChosen !== "-" && operationChosen !== null && operator === "-") {
-        secondOperand = operator;
+    // Prevents user from inputting more than one "-" in a row as operand if first or second operand has one
+    if (firstOperand === "-" || secondOperand === "-") return;
+
+    // Lets user add one "." after an operator has been chosen
+    if (operationChosen !== null && operatorClicked === "-" && secondOperand === "") {
+        secondOperand = operatorClicked;
         displayInput.textContent = firstOperand + operationChosen + secondOperand;
         return;
     }
 
-    if (firstOperand === "" && operator === "-" || firstOperand === "0" && operator === "-") {
-        firstOperand = operator;
-        displayInput.textContent = operator
-        return;
-    }
-
-    if (firstOperand === "0") return;
-
-    if (secondOperand === "" && operator !== "-") {
-        operationChosen = operator;
-        displayInput.textContent = firstOperand + operator;
-        return;
-    }
-
-    if (secondOperand === "" && operationChosen === "-" && firstOperand !== "-") {
-        secondOperand = operator;
-        displayInput.textContent += operator;
-        return;
-    }
-
-    if (operationChosen !== null) {
-
-        if (operationChosen == "/" && secondOperand === "0") {
-            handleInvalidMath();
-            return;
-        }
-
-        if (secondOperand === "") {
-            operationChosen = operator;
-            displayInput.textContent = firstOperand + operator;
-            return;
-        }
-
-        handleOperation(operator, operator);
-    }
-    else {
-        displayInput.textContent += operator;
-        operationChosen = operator;
-    }
+    displayInput.textContent = firstOperand + operatorClicked;
+    operationChosen = operatorClicked;
 }
 
 
@@ -240,6 +216,7 @@ function handleFactorial() {
     // If user has input invalid math when clicking factorial, execute handleInvalidMath
     if (firstOperand < 0 || !Number.isInteger(number) || operationChosen !== null) return handleInvalidMath();
 
+    // Executes handleOperation immediately when clicked, if values are valid
     return operationChosen = "x!", handleOperation();
 }
 
@@ -259,9 +236,6 @@ function handlePower() {
 equalElement.addEventListener("click", handleEquals);
 
 function handleEquals() {
-
-    if (operationChosen == "/" && secondOperand === "0") return handleInvalidMath();
-
     if (operationChosen !== null && secondOperand !== "") return handleOperation();
 }
 
@@ -285,7 +259,7 @@ function handleDecimal() {
         displayInput.textContent += ".";
         return;
     }
-    
+
 }
 
 
@@ -315,7 +289,7 @@ function handleUndo() {
     else {
         secondOperand = secondOperand.slice(0, -1);
     }
-    
+
     displayInput.textContent = displayInput.textContent.slice(0, -1);
 }
 
