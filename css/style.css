@@ -308,3 +308,9 @@ a {
         font-size: 35%;
     }
 }
+
+@media only screen and (max-height: 760px) {
+    html {
+        font-size: 40%;
+    }
+}
