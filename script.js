@@ -225,8 +225,9 @@ function handleFactorial() {
 powerElement.addEventListener("click", handlePower);
 
 function handlePower() {
+    const firstOperandNumber = Number(firstOperand);
 
-    if (operationChosen !== null || firstOperand === "0" || firstOperand === "") return;
+    if (operationChosen !== null || firstOperandNumber < 0 || firstOperand === "" || firstOperand === "-") return;
 
     return operationChosen = "xy";
 }
