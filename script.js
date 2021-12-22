@@ -211,10 +211,8 @@ factorialElement.addEventListener("click", handleFactorial);
 
 function handleFactorial() {
 
-    const number = Number(firstOperand);
-
     // If user has input invalid math when clicking factorial, execute handleInvalidMath
-    if (firstOperand < 0 || !Number.isInteger(number) || operationChosen !== null) return handleInvalidMath();
+    if (firstOperand < 0 || firstOperand > 150 || !Number.isInteger(firstOperand) || operationChosen !== null) return handleInvalidMath();
 
     // Executes handleOperation immediately when clicked, if values are valid
     return operationChosen = "x!", handleOperation();
@@ -225,9 +223,8 @@ function handleFactorial() {
 powerElement.addEventListener("click", handlePower);
 
 function handlePower() {
-    const firstOperandNumber = Number(firstOperand);
 
-    if (operationChosen !== null || firstOperandNumber < 0 || firstOperand === "" || firstOperand === "-") return;
+    if (operationChosen !== null || firstOperand < 0 || firstOperand === "" || firstOperand === "-") return;
 
     return operationChosen = "xy";
 }
