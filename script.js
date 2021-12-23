@@ -211,8 +211,11 @@ factorialElement.addEventListener("click", handleFactorial);
 
 function handleFactorial() {
 
+    // Need to convert to number to successfully check if first operand is an integer
+    const firstOperandNumber = Number(firstOperand);
+
     // If user has input invalid math when clicking factorial, execute handleInvalidMath
-    if (firstOperand < 0 || firstOperand > 150 || !Number.isInteger(firstOperand) || operationChosen !== null) return handleInvalidMath();
+    if (firstOperand < 0 || firstOperand > 150 || !Number.isInteger(firstOperandNumber) || operationChosen !== null) return handleInvalidMath();
 
     // Executes handleOperation immediately when clicked, if values are valid
     return operationChosen = "x!", handleOperation();
