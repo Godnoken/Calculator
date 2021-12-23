@@ -10,6 +10,7 @@ I've made this calculator based on the [The Odin Project](https://www.theodinpro
 The basic arithmetics
 Factorial
 Power to/exponentiation (with negative exponents too!)
+Scientific notation (if calculated number is larger than 16)
 Decimal
 Negative numbers
 -- becomes +
