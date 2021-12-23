@@ -107,7 +107,12 @@ function operate(operation, number1, number2) {
     }
 
     // Limit decimal points to 3
-    return Math.round(operation(number1, number2) * 1000) / 1000;
+    const calculatedNumber = Math.round(operation(number1, number2) * 1000) / 1000;
+
+    // Converts calculation to scientific notation if number is larger than 16 digits
+    if (calculatedNumber.toString().length > 16) return calculatedNumber.toExponential();
+
+    return calculatedNumber;
 }
 
 
