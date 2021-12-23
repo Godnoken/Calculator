@@ -297,6 +297,12 @@ a {
 
 /* Media Queries */
 
+@media only screen and (max-height: 760px) {
+    html {
+        font-size: 40%;
+    }
+}
+
 @media only screen and (max-width: 700px) {
     html {
         font-size: 40%;
@@ -306,11 +312,5 @@ a {
 @media only screen and (max-width: 300px) {
     html {
         font-size: 35%;
-    }
-}
-
-@media only screen and (max-height: 760px) {
-    html {
-        font-size: 40%;
     }
 }
